@@ -1,0 +1,28 @@
+{
+  "event_list":[
+    {
+      "name" : "someevent",
+      "parameters": [
+        "somereference",
+        "anotherreference"
+      ]
+    }],
+  "parameter_list":[
+    {
+      "reference" : "somereference",
+      "name": "select_content",
+      "type": "string"
+    },
+    {
+      "reference" : "anotherreference",
+      "name": "payment",
+      "type": "double"
+    }
+  ],
+  "constant_list":[
+    {
+      "name": "homescreen",
+      "value": "HOME_SCREEN"
+    }
+  ]
+}
