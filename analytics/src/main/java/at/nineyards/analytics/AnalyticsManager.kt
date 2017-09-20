@@ -83,11 +83,10 @@ class AnalyticsManager{
     )
     companion object {
         private var sInstance : AnalyticsManager? = null
-        fun getInstance() : AnalyticsManager?{
-            if (sInstance == null){
-                sInstance = AnalyticsManager()
-            }
-            return sInstance
+        fun getInstance() : AnalyticsManager{
+            val current : AnalyticsManager = sInstance ?: AnalyticsManager()
+            sInstance = current
+            return current
         }
     }
 }
