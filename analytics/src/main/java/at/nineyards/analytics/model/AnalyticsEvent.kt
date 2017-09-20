@@ -5,5 +5,5 @@ package at.nineyards.analytics.model
  */
 internal data class AnalyticsEvent(
         val name: String,
-        val parameters: List<String>
+        val parameters: List<String>?
 )

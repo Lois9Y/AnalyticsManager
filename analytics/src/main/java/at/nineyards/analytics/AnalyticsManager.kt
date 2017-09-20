@@ -24,7 +24,7 @@ class AnalyticsManager{
     private var definition : AnalyticsDefinition? = null
     private val constantsMap = mutableMapOf<String,String>()
     private val parameterMap = mutableMapOf<String,Pair<String,String>>()
-    private val eventMap = mutableMapOf<String,List<String>>()
+    private val eventMap = mutableMapOf<String,List<String>?>()
     fun initDefinitions(json : InputStream) : AnalyticsManager {
         val text = json.bufferedReader().use { it.readText() }
         definition = moshi.adapter(AnalyticsDefinition::class.java).fromJson(text)
