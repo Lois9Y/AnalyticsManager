@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         analyticsManager = AnalyticsManager.getInstance()
                 ?.initDefinitions(this.javaClass.classLoader.getResourceAsStream("event_definition.json"))
-                ?.setProvider(ToastProvider())
+                ?.addProvider(ToastProvider())
         setContentView(R.layout.activity_main)
         send_event.setOnClickListener {
             analyticsManager?.sendEvent("someevent","test",10.0)

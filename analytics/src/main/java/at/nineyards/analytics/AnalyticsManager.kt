@@ -20,7 +20,7 @@ import java.io.InputStreamReader
 class AnalyticsManager{
     private val TAG = AnalyticsManager::class.java.simpleName
     private val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
-    private var provider :AnalyticsProviderType = DummyProvider()
+    private var providerList  = mutableListOf<AnalyticsProviderType>()
     private var definition : AnalyticsDefinition? = null
     private val constantsMap = mutableMapOf<String,String>()
     private val parameterMap = mutableMapOf<String,Pair<String,String>>()
@@ -41,8 +41,18 @@ class AnalyticsManager{
         return this
     }
 
-    fun setProvider(provider : AnalyticsProviderType): AnalyticsManager{
-        this.provider = provider
+    fun addProvider(provider : AnalyticsProviderType): AnalyticsManager{
+        providerList.add(provider)
+        return this
+    }
+
+    fun removeProvider(provider: AnalyticsProviderType) : AnalyticsManager{
+        providerList.remove(provider)
+        return this
+    }
+
+    fun clearProviders() :AnalyticsManager{
+        providerList.clear()
         return this
     }
 
@@ -51,7 +61,7 @@ class AnalyticsManager{
         eventMap[name]?.withIndex()?.forEach {
             bundle.addAnalyticsParameter(parameterMap[it.value]?.first,parameterMap[it.value]?.second,params[it.index])
         }
-        provider.logEvent(name,bundle)
+        providerList.forEach { it.logEvent(name,bundle) }
     }
 
     fun getConstantsMap() :Map<String,String> = constantsMap.toMap()
