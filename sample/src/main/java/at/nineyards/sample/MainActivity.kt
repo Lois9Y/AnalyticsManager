@@ -18,8 +18,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        analyticsManager = AnalyticsManager(this.javaClass.classLoader.getResourceAsStream("event_definition.json"))
-        analyticsManager?.setProvider(ToastProvider())
+        analyticsManager = AnalyticsManager.getInstance()
+                ?.initDefinitions(this.javaClass.classLoader.getResourceAsStream("event_definition.json"))
+                ?.setProvider(ToastProvider())
         setContentView(R.layout.activity_main)
         send_event.setOnClickListener {
             analyticsManager?.sendEvent("someevent","test",10.0)
@@ -28,7 +29,7 @@ class MainActivity : AppCompatActivity() {
 
     inner class ToastProvider :AnalyticsProviderType{
         override fun logEvent(eventName: String, params: Bundle) {
-            var text = "ToastProvider \n logEvent='$eventName'\n"+params.toString()
+            val text = "ToastProvider \n logEvent='$eventName'\n"+params.toString()
 //            params.keySet().forEach {
 //                text += " key=$it value="+params.get(it)+"\n"
 //            }

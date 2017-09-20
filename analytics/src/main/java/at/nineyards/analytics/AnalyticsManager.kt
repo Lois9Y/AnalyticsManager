@@ -17,15 +17,15 @@ import java.io.InputStreamReader
 /**
  * Created by Lois-9Y on 19/09/2017.
  */
-class AnalyticsManager(json: InputStream){
+class AnalyticsManager{
     private val TAG = AnalyticsManager::class.java.simpleName
     private val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
     private var provider :AnalyticsProviderType = DummyProvider()
-    private var definition : AnalyticsDefinition?
+    private var definition : AnalyticsDefinition? = null
     private val constantsMap = mutableMapOf<String,String>()
     private val parameterMap = mutableMapOf<String,Pair<String,String>>()
     private val eventMap = mutableMapOf<String,List<String>>()
-    init {
+    fun initDefinitions(json : InputStream) : AnalyticsManager {
         val text = json.bufferedReader().use { it.readText() }
         definition = moshi.adapter(AnalyticsDefinition::class.java).fromJson(text)
 
@@ -38,10 +38,12 @@ class AnalyticsManager(json: InputStream){
         definition?.eventList?.forEach {
             eventMap.put(it.name,it.parameters)
         }
+        return this
     }
 
-    fun setProvider(provider : AnalyticsProviderType){
+    fun setProvider(provider : AnalyticsProviderType): AnalyticsManager{
         this.provider = provider
+        return this
     }
 
     fun sendEvent(name : String, vararg params: Any){
@@ -69,4 +71,13 @@ class AnalyticsManager(json: InputStream){
             "double" to { paraName, paraValue, bundle -> bundle.putDouble(paraName, paraValue as Double) },
             "float" to { paraName, paraValue, bundle -> bundle.putFloat(paraName, paraValue as Float) }
     )
+    companion object {
+        private var sInstance : AnalyticsManager? = null
+        fun getInstance() : AnalyticsManager?{
+            if (sInstance == null){
+                sInstance = AnalyticsManager()
+            }
+            return sInstance
+        }
+    }
 }
