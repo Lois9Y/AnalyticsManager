@@ -19,8 +19,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         analyticsManager = AnalyticsManager.getInstance()
-                ?.initDefinitions(this.javaClass.classLoader.getResourceAsStream("event_definition.json"))
-                ?.addProvider(ToastProvider())
+                .initDefinitions(this.javaClass.classLoader.getResourceAsStream("event_definition.json"))
+                .addProvider(ToastProvider())
         setContentView(R.layout.activity_main)
         send_event.setOnClickListener {
             analyticsManager?.sendEvent("someevent","test",10.0)

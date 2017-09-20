@@ -64,7 +64,7 @@ class AnalyticsManager{
         providerList.forEach { it.logEvent(name,bundle) }
     }
 
-    fun getConstantsMap() :Map<String,String> = constantsMap.toMap()
+    fun constant(key : String) =constantsMap[key]
 
     private fun Bundle.addAnalyticsParameter(paraName:String?,paraType:String?,paraValue: Any?) {
         if(paraName == null ||paraType == null ||paraValue == null){
